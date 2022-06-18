@@ -29,10 +29,11 @@ Player      =>    👨🏻‍🦱
 */
  
 const items = ['scissors', 'rock', 'paper'];
+let computerScore = 0, playerScore = 0;
 
 function computerSelection() {
     const min = 0, max = 2;
-    return Math.floor(Math.random() * (max - min + 1) + min)
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 function playerSelection() {
@@ -42,7 +43,15 @@ function playerSelection() {
 🪨 - Rock
 📄 - Paper
 `);
-    return items.indexOf(selection.toLowerCase());
+
+    let selectionIndex = items.indexOf(selection.toLowerCase());
+
+    if (selectionIndex === -1) {
+        // Affecting the returned value to selectionIndex when the last function in the call stack triggers a 'recursion end' at the moment the user enters a valid string
+        selectionIndex = playerSelection();
+    }
+    
+    return selectionIndex;
 }
 
 function selectedItemName(selection) {
@@ -54,9 +63,26 @@ function playRound(playerSelection, computerSelection) {
     const playerSelectedItem = selectedItemName(playerSelection);
     const computerSelectedItem = selectedItemName(computerSelection);
 
-    if(subResult === 1 || subResult === -2)
+    if (subResult === 1 || subResult === -2) {
+        playerScore++;
         return `You Win! ${playerSelectedItem} beats ${computerSelectedItem}`;
-    else if (subResult === -1 || subResult === 2)
-        return `You Lose! ${computerSelectedItem} beats ${playerSelectedItem}`
-    return 'Draw!'
+    }
+    else if (subResult === -1 || subResult === 2) {
+        computerScore++;
+        return `You Lose! ${computerSelectedItem} beats ${playerSelectedItem}`;
+    }
+    return 'Draw!';
 }
+
+function game() {
+    while (playerScore < 5 && computerScore < 5)
+        console.log(playRound(playerSelection(), computerSelection()));
+
+    let finalScore = `
+Player: ${playerScore} | Computer: ${computerScore}
+    `;
+
+    playerScore > computerScore ? alert(`You win! ${finalScore}`) : alert(`You Lose! ${finalScore}`);
+}
+
+game();
