@@ -45,3 +45,18 @@ function playerSelection() {
     return items.indexOf(selection.toLowerCase());
 }
 
+function selectedItemName(selection) {
+    return items[selection][0].toUpperCase() + items[selection].slice(1);
+}
+
+function playRound(playerSelection, computerSelection) {
+    const subResult = playerSelection - computerSelection;    
+    const playerSelectedItem = selectedItemName(playerSelection);
+    const computerSelectedItem = selectedItemName(computerSelection);
+
+    if(subResult === 1 || subResult === -2)
+        return `You Win! ${playerSelectedItem} beats ${computerSelectedItem}`;
+    else if (subResult === -1 || subResult === 2)
+        return `You Lose! ${computerSelectedItem} beats ${playerSelectedItem}`
+    return 'Draw!'
+}
