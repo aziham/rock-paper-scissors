@@ -37,18 +37,17 @@ function computerSelection() {
 }
 
 function playerSelection() {
-    const selection = prompt(`# Choose your weapon:
-    
+    let selectionIndex = -1;
+
+    while (selectionIndex === -1) {
+        const selection = prompt(`# Choose your weapon:
+        
 ✂️ - Scissors
 🪨 - Rock
 📄 - Paper
-`);
-
-    let selectionIndex = items.indexOf(selection.toLowerCase());
-
-    if (selectionIndex === -1) {
-        // Affecting the returned value to selectionIndex when the last function in the call stack triggers a 'recursion end' at the moment the user enters a valid string
-        selectionIndex = playerSelection();
+        `);
+        
+        selectionIndex = items.indexOf(selection.toLowerCase());
     }
     
     return selectionIndex;
