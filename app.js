@@ -31,10 +31,7 @@ Player      =>    👨🏻‍🦱
 const items = ['scissors', 'rock', 'paper'];
 let computerScore = 0, playerScore = 0;
 
-function computerSelection() {
-    const min = 0, max = 2;
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
+let computerSelection = () => Math.floor(Math.random() * items.length);
 
 function playerSelection() {
     let selectionIndex = -1;
