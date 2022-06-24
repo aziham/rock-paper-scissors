@@ -7,9 +7,19 @@
 html {
     font-size: 62.5%;
     font-family: Poppins, sans-serif;
+    color: #f0f0f0;
 }
 
 .game {
     min-height: 100vh;
     background: linear-gradient(90deg,#4383c3 40%,#30b4cb 60%);
+    padding: 5rem;
+}
+
+.game .round-number {
+    font-size: 7rem;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 11.5rem;
 }
