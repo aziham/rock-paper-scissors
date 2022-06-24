@@ -90,21 +90,6 @@ html {
     content: '\e834';
 }
 
-/* Loading Icon */
-.play-area .loading {
-    font-size: 13rem;
-    font-family: "fontello";
-    font-style: normal;
-    margin: 1.7rem 0;
-    animation: rotate 2s linear infinite;
-}
-
-/* Put it at the end of the file */
-@keyframes rotate {
-    0% {transform: rotate(0deg);}
-    100% {transform: rotate(360deg);}
-}
-
 /* Items */
 .play-area .items {
     display: flex;
@@ -121,7 +106,27 @@ html {
     max-width: 25%;
 }
 
+/* Items hover */
+.play-area .items > *:hover {
+    cursor: pointer;
+}
+
 /* Player/CPU Choice */
 .play-area .choice {
     font-size: 3rem;
+}
+
+/* Loading Icon */
+.play-area .loading {
+    font-size: 13rem;
+    font-family: "fontello";
+    font-style: normal;
+    margin: 1.7rem 0;
+    animation: rotate 2s linear infinite;
+}
+
+/* Put it at the end of the file */
+@keyframes rotate {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
 }
