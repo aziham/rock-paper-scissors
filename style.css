@@ -1,3 +1,15 @@
+@font-face {
+    font-family: 'fontello';
+    src: url('./assets/fonts/fontello/fontello.eot?19429840');
+    src: url('./assets/fonts/fontello/fontello.eot?19429840#iefix') format('embedded-opentype'),
+         url('./assets/fonts/fontello/fontello.woff2?19429840') format('woff2'),
+         url('./assets/fonts/fontello/fontello.woff?19429840') format('woff'),
+         url('./assets/fonts/fontello/fontello.ttf?19429840') format('truetype'),
+         url('./assets/fonts/fontello/fontello.svg?19429840#fontello') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
 * {
     margin: 0;
     padding: 0;
@@ -16,10 +28,100 @@ html {
     padding: 5rem;
 }
 
+/* Round Number */
 .game .round-number {
     font-size: 7rem;
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;
     margin-bottom: 11.5rem;
+}
+
+/* Play Area */
+.game .play-area {
+    display: flex;
+    gap: 43rem;
+    justify-content: center;
+}
+
+/* Computer/Player Container */
+.play-area .player, .play-area .computer {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+    align-items: center;
+}
+
+/* Score/Choice */
+.play-area .score, .play-area .choice {
+    text-align: center;
+}
+
+/* Player/CPU Score */
+.play-area .score {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Stars Icons */
+.play-area .stars {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.3rem;
+}
+
+.play-area .stars > * {
+    font-size: 4rem;
+    font-family: "fontello";
+    font-style: normal;
+}
+
+/* Full/Empty Stars, Loading Icons*/
+.play-area .stars .empty-star::before {
+    content: '\e801';
+}
+
+.play-area .stars .full-star::before {
+    content: '\e800';
+}
+
+.play-area .loading::before {
+    content: '\e834';
+}
+
+/* Loading Icon */
+.play-area .loading {
+    font-size: 13rem;
+    font-family: "fontello";
+    font-style: normal;
+    margin: 1.7rem 0;
+    animation: rotate 2s linear infinite;
+}
+
+/* Put it at the end of the file */
+@keyframes rotate {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
+}
+
+/* Items */
+.play-area .items {
+    display: flex;
+    gap: 7rem;
+    width: 200%;
+    justify-content: center;
+}
+
+.play-area .items > * {
+    max-width: 20%;
+}
+
+.play-area .items > img[alt='rock'] {
+    max-width: 25%;
+}
+
+/* Player/CPU Choice */
+.play-area .choice {
+    font-size: 3rem;
 }
