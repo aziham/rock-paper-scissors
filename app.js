@@ -33,6 +33,16 @@ let computerScore = 0, playerScore = 0;
 
 let computerSelection = () => Math.floor(Math.random() * items.length);
 
+// Add click event listener to all rps items
+const rpsItems = document.querySelectorAll('.items > *');
+
+function getRpsItemName (e) {
+    const rpsItemName = e.target.getAttribute('alt');
+    console.log(rpsItemName);
+}
+
+rpsItems.forEach(item => item.addEventListener('click', getRpsItemName));
+
 function playerSelection() {
     let selectionIndex = -1;
 
@@ -48,6 +58,8 @@ function playerSelection() {
     }
     
     return selectionIndex;
+
+    
 }
 
 function selectedItemName(selection) {
@@ -81,4 +93,4 @@ Player: ${playerScore} | Computer: ${computerScore}
     playerScore > computerScore ? alert(`You win! ${finalScore}`) : alert(`You Lose! ${finalScore}`);
 }
 
-game();
+// game();
