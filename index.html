@@ -4,9 +4,50 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./app.js" defer></script>
     <title>Rock Paper Scissors</title>
 </head>
 <body>
-    <script src="./app.js"></script>
+    <div class="game">
+        <p class="round-number">Round 0</p>
+        <section class="play-area">
+            <div class="player">
+                <div class="score-container">
+                    <p class="score">Your score</p>
+                    <div class="stars">
+                        <i class="empty-star star-1"></i>
+                        <i class="empty-star star-2"></i>
+                        <i class="empty-star star-3"></i>
+                        <i class="empty-star star-4"></i>
+                        <i class="empty-star star-5"></i>
+                    </div>
+                </div>
+                <div class="items">
+                    <img src="./assets/img/rock.svg" alt="rock">
+                    <img src="./assets/img/paper.svg" alt="paper">
+                    <img src="./assets/img/scissors.svg" alt="scissors">
+                </div>
+                <p class="choice">Choose your weapon</p>
+            </div>
+            <div class="computer">
+                <div class="score-container">
+                    <p class="score">Computer's score</p>
+                    <div class="stars">
+                        <i class="empty-star star-1"></i>
+                        <i class="empty-star star-2"></i>
+                        <i class="empty-star star-3"></i>
+                        <i class="empty-star star-4"></i>
+                        <i class="empty-star star-5"></i>
+                    </div>
+                </div>
+                <div class="item">
+                    <i class="loading"></i>
+                </div>
+                <p class="choice">Waiting for your move</p>
+            </div>
+        </section>
+        <p class="result"></p>
+    </div>
 </body>
 </html>

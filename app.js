@@ -27,58 +27,138 @@ Player      =>    👨🏻‍🦱
 + If the subtraction is 0 then it's a draw
 
 */
- 
+
 const items = ['scissors', 'rock', 'paper'];
-let computerScore = 0, playerScore = 0;
+let computerScore = 0, playerScore = 0, roundNumber = 0;
 
 let computerSelection = () => Math.floor(Math.random() * items.length);
 
-function playerSelection() {
-    let selectionIndex = -1;
+// Get items for later on manipulation
+const rpsItemsContainer = document.querySelector('.player .items');
+const rpsItemContainer = document.querySelector('.computer .item');
+const playerChoiceText = document.querySelector('.player .choice');
+const cpuChoiceText = document.querySelector('.computer .choice');
+const result = document.querySelector('.game .result');
 
-    while (selectionIndex === -1) {
-        const selection = prompt(`# Choose your weapon:
-        
-✂️ - Scissors
-🪨 - Rock
-📄 - Paper
-        `);
-        
-        selectionIndex = items.indexOf(selection.toLowerCase());
-    }
-    
-    return selectionIndex;
+// Get initial values to re-assign later on round reset
+const initRpsItemContainer = rpsItemContainer.innerHTML;
+const initRpsItemsContainer = rpsItemsContainer.innerHTML;
+const initPlayerChoiceText = playerChoiceText.textContent;
+const initCpuChoiceText = cpuChoiceText.textContent;
+
+function gameOver() {
+    return (computerScore === 5 || playerScore === 5)
 }
 
-function selectedItemName(selection) {
+function getRpsItemName (e) {
+    const rpsItemName = e.target.getAttribute('alt');
+    game(rpsItemName);
+}
+
+// Add click event listener to all rps items
+function addEventListeners() {
+    const rpsItems = document.querySelectorAll('.player .items > *');
+    rpsItems.forEach(item => item.addEventListener('click', getRpsItemName));
+}
+
+function removeEventListeners() {
+    const rpsItems = document.querySelectorAll('.player .items > *');
+    rpsItems.forEach(item => item.removeEventListener('click', getRpsItemName));
+}
+
+addEventListeners();
+
+// Return player selection index in items[]
+function playerSelection(rpsItemName) {
+    return items.indexOf(rpsItemName);
+}
+
+// Capitalize the selected item's name
+function capitalizeItemName(selection) {
     return items[selection][0].toUpperCase() + items[selection].slice(1);
 }
 
-function playRound(playerSelection, computerSelection) {
-    const subResult = playerSelection - computerSelection;    
-    const playerSelectedItem = selectedItemName(playerSelection);
-    const computerSelectedItem = selectedItemName(computerSelection);
+//Round reset
+function roundReset() {
+    rpsItemContainer.innerHTML = initRpsItemContainer;
+    rpsItemsContainer.innerHTML = initRpsItemsContainer;
+    playerChoiceText.textContent  = initPlayerChoiceText;
+    cpuChoiceText.textContent = initCpuChoiceText;
+    cpuChoiceText.style = 'margin-top: 2.5rem';
+    result.textContent = '';
 
+    addEventListeners();
+}
+
+function playRound(playerSelection, computerSelection) {
+    const subResult = playerSelection - computerSelection;
+    const playerSelectedItem = capitalizeItemName(playerSelection);
+    const computerSelectedItem = capitalizeItemName(computerSelection);
+    updateComputerUI(computerSelectedItem.toLowerCase());
+    updatePlayerUI(playerSelectedItem.toLowerCase());
+
+    //Update round's number in UI
+    roundNumber++;
+    const roundNumberUI = document.querySelector('.round-number');
+    roundNumberUI.textContent = `Round ${roundNumber}`;
+
+    removeEventListeners();
+    setTimeout(roundReset, 1300);
+
+    // Check for win or lost
     if (subResult === 1 || subResult === -2) {
         playerScore++;
-        return `You Win! ${playerSelectedItem} beats ${computerSelectedItem}`;
+        updateScoreStars(playerScore, 'player');
+        result.textContent = 'You Win!';
     }
     else if (subResult === -1 || subResult === 2) {
         computerScore++;
-        return `You Lose! ${computerSelectedItem} beats ${playerSelectedItem}`;
+        updateScoreStars(computerScore, 'computer');
+        result.textContent = 'You Lose!';
     }
-    return 'Draw!';
+    else
+        result.textContent = 'Draw!';
+    
+    // Check for game over
+    if(gameOver()) {
+        setTimeout(() => {
+            result.textContent = 'Play Again!'
+            result.classList.add('play-again');
+            removeEventListeners();
+            result.addEventListener('click', () => {window.location.reload()});
+        }, 1500);
+    }
 }
 
-function game() {
-    while (playerScore < 5 && computerScore < 5)
-        console.log(playRound(playerSelection(), computerSelection()));
+function updatePlayerUI (rpsItemName) {
+    const rpsElement = document.querySelector(`img[alt=${rpsItemName}]`);
+    const rpsItems = document.querySelectorAll('.player .items > *');
 
-    let finalScore = `
-Player: ${playerScore} | Computer: ${computerScore}
-    `;
-
-    playerScore > computerScore ? alert(`You win! ${finalScore}`) : alert(`You Lose! ${finalScore}`);
+    rpsItems.forEach(item => item.remove());
+    rpsItemsContainer.append(rpsElement);
+    playerChoiceText.textContent = capitalizeItemName(items.indexOf(rpsItemName));
 }
 
-game();
+function updateComputerUI (rpsItemName) {
+    const playerRpsElement = document.querySelector(`img[alt=${rpsItemName}]`);
+    const rpsElement = playerRpsElement.cloneNode(true);
+    const loadingIcon = document.querySelector('.computer .loading');
+
+
+    loadingIcon.remove();
+    rpsItemContainer.append(rpsElement);
+    cpuChoiceText.style = 'margin-top: 0'
+    cpuChoiceText.textContent = capitalizeItemName(items.indexOf(rpsItemName));
+}
+
+function updateScoreStars(starNumber, player) {
+    const starElement = document.querySelector(`.${player} .star-${starNumber}`);
+    starElement.classList.remove('empty-star');
+    starElement.classList.add('full-star');
+}
+
+function game (rpsItemName) {
+    if (!gameOver()) {
+        playRound(playerSelection(rpsItemName), computerSelection());
+    }
+}
