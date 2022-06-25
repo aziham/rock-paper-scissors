@@ -47,6 +47,12 @@ function playerSelection(rpsItemName) {
     return items.indexOf(rpsItemName);
 }
 
+// Get selected element's innerHTML
+function getSelectedElement(rpsItemName) {
+    const rpsElement = document.querySelector(`img[alt=${rpsItemName}]`);
+    return rpsElement;
+}
+
 function selectedItemName(selection) {
     return items[selection][0].toUpperCase() + items[selection].slice(1);
 }
@@ -68,8 +74,10 @@ function playRound(playerSelection, computerSelection) {
 }
 
 function game(rpsItemName) {
-    while (playerScore < 5 && computerScore < 5)
+    while (playerScore < 5 && computerScore < 5) {
         console.log(playRound(playerSelection(rpsItemName), computerSelection()));
+        getSelectedElement(rpsItemName);
+    }
 
     let finalScore = `
 Player: ${playerScore} | Computer: ${computerScore}
