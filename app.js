@@ -29,12 +29,16 @@ Player      =>    👨🏻‍🦱
 */
 
 const items = ['scissors', 'rock', 'paper'];
-let computerScore = 0, playerScore = 0;
+let computerScore = 0, playerScore = 0, roundNumber = 0;
 
 let computerSelection = () => Math.floor(Math.random() * items.length);
 
+//Clone the loading icon element
+const loadingClone = document.querySelector('.computer .loading').cloneNode(true);
+
 // Add click event listener to all rps items
 const rpsItems = document.querySelectorAll('.player .items > *');
+const rpsItemsClone = rpsItems.cloneNode(true);
 function getRpsItemName (e) {
     const rpsItemName = e.target.getAttribute('alt');
     game(rpsItemName);
@@ -58,6 +62,12 @@ function playRound(playerSelection, computerSelection) {
     updateComputerUI(computerSelectedItem.toLowerCase());
     updatePlayerUI(playerSelectedItem.toLowerCase());
 
+    //Update round's number in UI
+    roundNumber++;
+    const roundNumberUI = document.querySelector('.round-number');
+    roundNumberUI.textContent = `Round ${roundNumber}`;
+
+    // Check for win or lost
     if (subResult === 1 || subResult === -2) {
         playerScore++;
         return `You Win! ${playerSelectedItem} beats ${computerSelectedItem}`;
