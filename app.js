@@ -55,8 +55,8 @@ function playRound(playerSelection, computerSelection) {
     const subResult = playerSelection - computerSelection;
     const playerSelectedItem = capitalizeItemName(playerSelection);
     const computerSelectedItem = capitalizeItemName(computerSelection);
-    updatePlayerUI(playerSelectedItem.toLowerCase());
     updateComputerUI(computerSelectedItem.toLowerCase());
+    updatePlayerUI(playerSelectedItem.toLowerCase());
 
     if (subResult === 1 || subResult === -2) {
         playerScore++;
@@ -77,6 +77,20 @@ function updatePlayerUI (rpsItemName) {
 
     rpsItems.forEach(item => item.remove());
     rpsItemsContainer.append(rpsElement);
+    choiceText.textContent = capitalizeItemName(items.indexOf(rpsItemName));
+}
+
+function updateComputerUI (rpsItemName) {
+    const playerRpsElement = document.querySelector(`img[alt=${rpsItemName}]`);
+    const rpsElement = playerRpsElement.cloneNode(true);
+    const rpsItemContainer = document.querySelector('.computer .item');
+    const loadingIcon = document.querySelector('.computer .loading');
+    const choiceText = document.querySelector('.computer .choice');
+
+
+    loadingIcon.remove();
+    rpsItemContainer.append(rpsElement);
+    choiceText.style = 'margin-top: 0'
     choiceText.textContent = capitalizeItemName(items.indexOf(rpsItemName));
 }
 

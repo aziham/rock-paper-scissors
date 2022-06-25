@@ -98,11 +98,17 @@ html {
     justify-content: center;
 }
 
-.play-area .items > * {
+.play-area .item {
+    display: flex;
+    width: 190%;
+    justify-content: center;
+}
+
+.play-area img {
     max-width: 20%;
 }
 
-.play-area .items > img[alt='rock'] {
+.play-area img[alt='rock'] {
     max-width: 25%;
 }
 
@@ -118,7 +124,7 @@ html {
 
 /* Loading Icon */
 .play-area .loading {
-    display: block;
+    /* display: block; -- Parent element have already display:flex */ 
     font-size: 13rem;
     font-family: "fontello";
     font-style: normal;
