@@ -90,15 +90,17 @@ function playRound(playerSelection, computerSelection) {
     const roundNumberUI = document.querySelector('.round-number');
     roundNumberUI.textContent = `Round ${roundNumber}`;
 
-    setTimeout(roundReset, 2000);
+    setTimeout(roundReset, 1000);
 
     // Check for win or lost
     if (subResult === 1 || subResult === -2) {
         playerScore++;
+        updateScoreStars(playerScore, 'player');
         return `You Win! ${playerSelectedItem} beats ${computerSelectedItem}`;
     }
     else if (subResult === -1 || subResult === 2) {
         computerScore++;
+        updateScoreStars(computerScore, 'computer');
         return `You Lose! ${computerSelectedItem} beats ${playerSelectedItem}`;
     }
     return 'Draw!';
@@ -123,6 +125,12 @@ function updateComputerUI (rpsItemName) {
     rpsItemContainer.append(rpsElement);
     cpuChoiceText.style = 'margin-top: 0'
     cpuChoiceText.textContent = capitalizeItemName(items.indexOf(rpsItemName));
+}
+
+function updateScoreStars(starNumber, player) {
+    const starElement = document.querySelector(`.${player} .star-${starNumber}`);
+    starElement.classList.remove('empty-star');
+    starElement.classList.add('full-star');
 }
 
 function game (rpsItemName) {
