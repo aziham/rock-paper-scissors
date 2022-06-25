@@ -26,13 +26,13 @@ html {
     min-height: 100vh;
     background: linear-gradient(90deg,#4383c3 40%,#30b4cb 60%);
     padding: 5rem;
+    text-align: center;
 }
 
 /* Round Number */
 .game .round-number {
     font-size: 7rem;
     font-weight: bold;
-    text-align: center;
     text-transform: uppercase;
     margin-bottom: 11.5rem;
 }
@@ -144,8 +144,23 @@ html {
     margin-top: 15rem;
 }
 
+.game .play-again {
+    display: inline-block;
+    border: white solid 5px;
+    border-radius: 3rem;
+    padding: 1.5rem;
+    font-size: 3.5rem;
+    transition: transform 1s;
+}
+
+.play-again:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
 /* Put it at the end of the file */
 @keyframes rotate {
     0% {transform: rotate(0deg);}
     100% {transform: rotate(360deg);}
 }
+

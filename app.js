@@ -118,6 +118,16 @@ function playRound(playerSelection, computerSelection) {
     }
     else
         result.textContent = 'Draw!';
+    
+    // Check for game over
+    if(gameOver()) {
+        setTimeout(() => {
+            result.textContent = 'Play Again!'
+            result.classList.add('play-again');
+            removeEventListeners();
+            result.addEventListener('click', () => {window.location.reload()});
+        }, 1500);
+    }
 }
 
 function updatePlayerUI (rpsItemName) {
@@ -151,11 +161,4 @@ function game (rpsItemName) {
     if (!gameOver()) {
         playRound(playerSelection(rpsItemName), computerSelection());
     }
-
-    else {
-        removeEventListeners();
-        result.textContent = 'Play Again!';
-    }
 }
-
-// game();
