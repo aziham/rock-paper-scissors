@@ -38,6 +38,7 @@ const rpsItemsContainer = document.querySelector('.player .items');
 const rpsItemContainer = document.querySelector('.computer .item');
 const playerChoiceText = document.querySelector('.player .choice');
 const cpuChoiceText = document.querySelector('.computer .choice');
+const result = document.querySelector('.game .result');
 
 // Get initial values to re-assign later on round reset
 const initRpsItemContainer = rpsItemContainer.innerHTML;
@@ -45,14 +46,24 @@ const initRpsItemsContainer = rpsItemsContainer.innerHTML;
 const initPlayerChoiceText = playerChoiceText.textContent;
 const initCpuChoiceText = cpuChoiceText.textContent;
 
+function gameOver() {
+    return (computerScore === 5 || playerScore === 5)
+}
+
+function getRpsItemName (e) {
+    const rpsItemName = e.target.getAttribute('alt');
+    game(rpsItemName);
+}
+
 // Add click event listener to all rps items
 function addEventListeners() {
     const rpsItems = document.querySelectorAll('.player .items > *');
-    function getRpsItemName (e) {
-        const rpsItemName = e.target.getAttribute('alt');
-        game(rpsItemName);
-    }
     rpsItems.forEach(item => item.addEventListener('click', getRpsItemName));
+}
+
+function removeEventListeners() {
+    const rpsItems = document.querySelectorAll('.player .items > *');
+    rpsItems.forEach(item => item.removeEventListener('click', getRpsItemName));
 }
 
 addEventListeners();
@@ -74,6 +85,7 @@ function roundReset() {
     playerChoiceText.textContent  = initPlayerChoiceText;
     cpuChoiceText.textContent = initCpuChoiceText;
     cpuChoiceText.style = 'margin-top: 2.5rem';
+    result.textContent = '';
 
     addEventListeners();
 }
@@ -90,20 +102,22 @@ function playRound(playerSelection, computerSelection) {
     const roundNumberUI = document.querySelector('.round-number');
     roundNumberUI.textContent = `Round ${roundNumber}`;
 
-    setTimeout(roundReset, 1000);
+    removeEventListeners();
+    setTimeout(roundReset, 1300);
 
     // Check for win or lost
     if (subResult === 1 || subResult === -2) {
         playerScore++;
         updateScoreStars(playerScore, 'player');
-        return `You Win! ${playerSelectedItem} beats ${computerSelectedItem}`;
+        result.textContent = 'You Win!';
     }
     else if (subResult === -1 || subResult === 2) {
         computerScore++;
         updateScoreStars(computerScore, 'computer');
-        return `You Lose! ${computerSelectedItem} beats ${playerSelectedItem}`;
+        result.textContent = 'You Lose!';
     }
-    return 'Draw!';
+    else
+        result.textContent = 'Draw!';
 }
 
 function updatePlayerUI (rpsItemName) {
@@ -134,18 +148,13 @@ function updateScoreStars(starNumber, player) {
 }
 
 function game (rpsItemName) {
-    if (playerScore < 5 && computerScore < 5) {
-        console.log(playRound(playerSelection(rpsItemName), computerSelection()));
+    if (!gameOver()) {
+        playRound(playerSelection(rpsItemName), computerSelection());
     }
 
     else {
-
-            let finalScore = `
-        Player: ${playerScore} | Computer: ${computerScore}
-            `;
-
-            playerScore > computerScore ? alert(`You win! ${finalScore}`) : alert(`You Lose! ${finalScore}`);
-
+        removeEventListeners();
+        result.textContent = 'Play Again!';
     }
 }
 
