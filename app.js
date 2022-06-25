@@ -33,17 +33,29 @@ let computerScore = 0, playerScore = 0, roundNumber = 0;
 
 let computerSelection = () => Math.floor(Math.random() * items.length);
 
-//Clone the loading icon element
-const loadingClone = document.querySelector('.computer .loading').cloneNode(true);
+// Get items for later on manipulation
+const rpsItemsContainer = document.querySelector('.player .items');
+const rpsItemContainer = document.querySelector('.computer .item');
+const playerChoiceText = document.querySelector('.player .choice');
+const cpuChoiceText = document.querySelector('.computer .choice');
+
+// Get initial values to re-assign later on round reset
+const initRpsItemContainer = rpsItemContainer.innerHTML;
+const initRpsItemsContainer = rpsItemsContainer.innerHTML;
+const initPlayerChoiceText = playerChoiceText.textContent;
+const initCpuChoiceText = cpuChoiceText.textContent;
 
 // Add click event listener to all rps items
-const rpsItems = document.querySelectorAll('.player .items > *');
-const rpsItemsClone = rpsItems.cloneNode(true);
-function getRpsItemName (e) {
-    const rpsItemName = e.target.getAttribute('alt');
-    game(rpsItemName);
+function addEventListeners() {
+    const rpsItems = document.querySelectorAll('.player .items > *');
+    function getRpsItemName (e) {
+        const rpsItemName = e.target.getAttribute('alt');
+        game(rpsItemName);
+    }
+    rpsItems.forEach(item => item.addEventListener('click', getRpsItemName));
 }
-rpsItems.forEach(item => item.addEventListener('click', getRpsItemName));
+
+addEventListeners();
 
 // Return player selection index in items[]
 function playerSelection(rpsItemName) {
@@ -53,6 +65,17 @@ function playerSelection(rpsItemName) {
 // Capitalize the selected item's name
 function capitalizeItemName(selection) {
     return items[selection][0].toUpperCase() + items[selection].slice(1);
+}
+
+//Round reset
+function roundReset() {
+    rpsItemContainer.innerHTML = initRpsItemContainer;
+    rpsItemsContainer.innerHTML = initRpsItemsContainer;
+    playerChoiceText.textContent  = initPlayerChoiceText;
+    cpuChoiceText.textContent = initCpuChoiceText;
+    cpuChoiceText.style = 'margin-top: 2.5rem';
+
+    addEventListeners();
 }
 
 function playRound(playerSelection, computerSelection) {
@@ -66,6 +89,8 @@ function playRound(playerSelection, computerSelection) {
     roundNumber++;
     const roundNumberUI = document.querySelector('.round-number');
     roundNumberUI.textContent = `Round ${roundNumber}`;
+
+    setTimeout(roundReset, 2000);
 
     // Check for win or lost
     if (subResult === 1 || subResult === -2) {
@@ -81,27 +106,23 @@ function playRound(playerSelection, computerSelection) {
 
 function updatePlayerUI (rpsItemName) {
     const rpsElement = document.querySelector(`img[alt=${rpsItemName}]`);
-    const rpsItemsContainer = document.querySelector('.player .items');
     const rpsItems = document.querySelectorAll('.player .items > *');
-    const choiceText = document.querySelector('.player .choice');
 
     rpsItems.forEach(item => item.remove());
     rpsItemsContainer.append(rpsElement);
-    choiceText.textContent = capitalizeItemName(items.indexOf(rpsItemName));
+    playerChoiceText.textContent = capitalizeItemName(items.indexOf(rpsItemName));
 }
 
 function updateComputerUI (rpsItemName) {
     const playerRpsElement = document.querySelector(`img[alt=${rpsItemName}]`);
     const rpsElement = playerRpsElement.cloneNode(true);
-    const rpsItemContainer = document.querySelector('.computer .item');
     const loadingIcon = document.querySelector('.computer .loading');
-    const choiceText = document.querySelector('.computer .choice');
 
 
     loadingIcon.remove();
     rpsItemContainer.append(rpsElement);
-    choiceText.style = 'margin-top: 0'
-    choiceText.textContent = capitalizeItemName(items.indexOf(rpsItemName));
+    cpuChoiceText.style = 'margin-top: 0'
+    cpuChoiceText.textContent = capitalizeItemName(items.indexOf(rpsItemName));
 }
 
 function game (rpsItemName) {
