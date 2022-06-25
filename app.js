@@ -41,23 +41,10 @@ function getRpsItemName (e) {
 }
 rpsItems.forEach(item => item.addEventListener('click', getRpsItemName));
 
-function playerSelection() {
-    let selectionIndex = -1;
-
-    while (selectionIndex === -1) {
-        const selection = prompt(`# Choose your weapon:
-        
-✂️ - Scissors
-🪨 - Rock
-📄 - Paper
-        `);
-        
-        selectionIndex = items.indexOf(selection.toLowerCase());
-    }
-    
-    return selectionIndex;
-
-    
+// Return player selection index in items[]
+function playerSelection(rpsItemName) {
+    console.log(items.indexOf(rpsItemName));
+    return items.indexOf(rpsItemName);
 }
 
 function selectedItemName(selection) {
@@ -80,9 +67,9 @@ function playRound(playerSelection, computerSelection) {
     return 'Draw!';
 }
 
-function game() {
+function game(rpsItemName) {
     while (playerScore < 5 && computerScore < 5)
-        console.log(playRound(playerSelection(), computerSelection()));
+        console.log(playRound(playerSelection(rpsItemName), computerSelection()));
 
     let finalScore = `
 Player: ${playerScore} | Computer: ${computerScore}
