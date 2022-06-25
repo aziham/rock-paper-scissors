@@ -27,14 +27,14 @@ Player      =>    👨🏻‍🦱
 + If the subtraction is 0 then it's a draw
 
 */
- 
+
 const items = ['scissors', 'rock', 'paper'];
 let computerScore = 0, playerScore = 0;
 
 let computerSelection = () => Math.floor(Math.random() * items.length);
 
 // Add click event listener to all rps items
-const rpsItems = document.querySelectorAll('.items > *');
+const rpsItems = document.querySelectorAll('.player .items > *');
 function getRpsItemName (e) {
     const rpsItemName = e.target.getAttribute('alt');
     game(rpsItemName);
@@ -46,21 +46,17 @@ function playerSelection(rpsItemName) {
     return items.indexOf(rpsItemName);
 }
 
-// Get selected element's innerHTML
-function getSelectedElement(rpsItemName) {
-    const rpsElement = document.querySelector(`img[alt=${rpsItemName}]`);
-    return rpsElement;
-}
-
 // Capitalize the selected item's name
 function capitalizeItemName(selection) {
     return items[selection][0].toUpperCase() + items[selection].slice(1);
 }
 
 function playRound(playerSelection, computerSelection) {
-    const subResult = playerSelection - computerSelection;    
+    const subResult = playerSelection - computerSelection;
     const playerSelectedItem = capitalizeItemName(playerSelection);
     const computerSelectedItem = capitalizeItemName(computerSelection);
+    updatePlayerUI(playerSelectedItem.toLowerCase());
+    updateComputerUI(computerSelectedItem.toLowerCase());
 
     if (subResult === 1 || subResult === -2) {
         playerScore++;
@@ -73,17 +69,31 @@ function playRound(playerSelection, computerSelection) {
     return 'Draw!';
 }
 
-function game(rpsItemName) {
-    while (playerScore < 5 && computerScore < 5) {
+function updatePlayerUI (rpsItemName) {
+    const rpsElement = document.querySelector(`img[alt=${rpsItemName}]`);
+    const rpsItemsContainer = document.querySelector('.player .items');
+    const rpsItems = document.querySelectorAll('.player .items > *');
+    const choiceText = document.querySelector('.player .choice');
+
+    rpsItems.forEach(item => item.remove());
+    rpsItemsContainer.append(rpsElement);
+    choiceText.textContent = capitalizeItemName(items.indexOf(rpsItemName));
+}
+
+function game (rpsItemName) {
+    if (playerScore < 5 && computerScore < 5) {
         console.log(playRound(playerSelection(rpsItemName), computerSelection()));
-        getSelectedElement(rpsItemName);
     }
 
-    let finalScore = `
-Player: ${playerScore} | Computer: ${computerScore}
-    `;
+    else {
 
-    playerScore > computerScore ? alert(`You win! ${finalScore}`) : alert(`You Lose! ${finalScore}`);
+            let finalScore = `
+        Player: ${playerScore} | Computer: ${computerScore}
+            `;
+
+            playerScore > computerScore ? alert(`You win! ${finalScore}`) : alert(`You Lose! ${finalScore}`);
+
+    }
 }
 
 // game();

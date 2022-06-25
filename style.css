@@ -118,11 +118,15 @@ html {
 
 /* Loading Icon */
 .play-area .loading {
+    display: block;
     font-size: 13rem;
     font-family: "fontello";
     font-style: normal;
-    margin: 1.7rem 0;
     animation: rotate 2s linear infinite;
+}
+
+.play-area .computer .choice {
+    margin-top: 2.5rem;
 }
 
 /* Put it at the end of the file */
