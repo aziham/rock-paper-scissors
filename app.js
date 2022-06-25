@@ -35,12 +35,10 @@ let computerSelection = () => Math.floor(Math.random() * items.length);
 
 // Add click event listener to all rps items
 const rpsItems = document.querySelectorAll('.items > *');
-
 function getRpsItemName (e) {
     const rpsItemName = e.target.getAttribute('alt');
-    console.log(rpsItemName);
+    game(rpsItemName);
 }
-
 rpsItems.forEach(item => item.addEventListener('click', getRpsItemName));
 
 function playerSelection() {
