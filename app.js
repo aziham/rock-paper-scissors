@@ -43,7 +43,6 @@ rpsItems.forEach(item => item.addEventListener('click', getRpsItemName));
 
 // Return player selection index in items[]
 function playerSelection(rpsItemName) {
-    console.log(items.indexOf(rpsItemName));
     return items.indexOf(rpsItemName);
 }
 
@@ -53,14 +52,15 @@ function getSelectedElement(rpsItemName) {
     return rpsElement;
 }
 
-function selectedItemName(selection) {
+// Capitalize the selected item's name
+function capitalizeItemName(selection) {
     return items[selection][0].toUpperCase() + items[selection].slice(1);
 }
 
 function playRound(playerSelection, computerSelection) {
     const subResult = playerSelection - computerSelection;    
-    const playerSelectedItem = selectedItemName(playerSelection);
-    const computerSelectedItem = selectedItemName(computerSelection);
+    const playerSelectedItem = capitalizeItemName(playerSelection);
+    const computerSelectedItem = capitalizeItemName(computerSelection);
 
     if (subResult === 1 || subResult === -2) {
         playerScore++;
